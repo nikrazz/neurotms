@@ -204,40 +204,44 @@
                             action="/success"
                           >
                             <div class="col-6 form-group mb-3">
-                              <label for="name">First Name</label>
+                              <label for="name">First Name<span style="color: red;">*</span></label>
                               <input
                                 type="text"
                                 id="name"
                                 name="name"
                                 class="form-control input-sm"
                               />
+				<span class="error-message" style="color: red; display: none;">This field is required.</span>
                             </div>
                             <div class="col-6 form-group mb-3">
-                              <label for="surname">Last Name</label>
+                              <label for="surname">Last Name<span style="color: red;">*</span></label>
                               <input
                                 type="text"
                                 id="surname"
                                 name="surname"
                                 class="form-control input-sm"
                               />
+				    <span class="error-message" style="color: red; display: none;">This field is required.</span>
                             </div>
                             <div class="col-6 form-group mb-3">
-                              <label for="email">Email</label>
+                              <label for="email">Email<span style="color: red;">*</span></label>
                               <input
                                 type="email"
                                 id="email"
                                 name="email"
                                 class="form-control input-sm"
                               />
+				    <span class="error-message" style="color: red; display: none;">This field is required.</span>
                             </div>
                             <div class="col-6 form-group mb-3">
-                              <label for="phone">Phone</label>
+                              <label for="phone">Phone<span style="color: red;">*</span></label>
                               <input
                                 type="text"
                                 id="phone"
                                 name="phone"
                                 class="form-control input-sm"
                               />
+				    <span class="error-message" style="color: red; display: none;">This field is required.</span>
                             </div>
                             <div class="col-12">
                               <h4 class="mb-3">
@@ -299,40 +303,44 @@
                               <h4 class="mb-3">Referring Doctor</h4>
                             </div>
                             <div class="col-6 form-group mb-3">
-                              <label for="fullname">Full Name</label>
+                              <label for="fullname">Full Name<span style="color: red;">*</span></label>
                               <input
                                 type="text"
                                 id="fullname"
                                 name="fullname"
                                 class="form-control input-sm"
                               />
+				    <span class="error-message" style="color: red; display: none;">This field is required.</span>
                             </div>
                             <div class="col-6 form-group mb-3">
-                              <label for="providernum">Provider Number</label>
+                              <label for="providernum">Provider Number<span style="color: red;">*</span></label>
                               <input
                                 type="text"
                                 id="providernum"
                                 name="providernum"
                                 class="form-control input-sm"
                               />
+				    <span class="error-message" style="color: red; display: none;">This field is required.</span>
                             </div>
                             <div class="col-6 form-group mb-3">
-                              <label for="docemail">Your Email</label>
+                              <label for="docemail">Your Email<span style="color: red;">*</span></label>
                               <input
                                 type="email"
                                 id="docemail"
                                 name="docemail"
                                 class="form-control input-sm"
                               />
+				    <span class="error-message" style="color: red; display: none;">This field is required.</span>
                             </div>
                             <div class="col-6 form-group mb-3">
-                              <label for="docphone">Your Phone</label>
+                              <label for="docphone">Your Phone<span style="color: red;">*</span></label>
                               <input
                                 type="text"
                                 id="docphone"
                                 name="docphone"
                                 class="form-control input-sm"
                               />
+				    <span class="error-message" style="color: red; display: none;">This field is required.</span>
                             </div>
                             <div class="col-12 form-group mb-0">
                               <button
@@ -763,5 +771,63 @@
 	============================================= -->
 
     <script src="js/functions.js"></script>
+	      <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('referrals');
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        let valid = true;
+
+        const requiredFields = [
+            document.getElementById('name'),
+            document.getElementById('surname'),
+            document.getElementById('email'),
+            document.getElementById('phone'),
+            document.getElementById('fullname'),
+            document.getElementById('providernum'),
+            document.getElementById('docemail'),
+            document.getElementById('docphone')
+        ];
+
+        // Validate required fields
+        requiredFields.forEach(input => {
+            const errorMessage = input.nextElementSibling; // Assuming error message span is next
+            if (input.value.trim() === '') {
+                errorMessage.textContent = 'This field is required.';
+                errorMessage.style.display = 'block';
+                input.classList.add('error');
+                valid = false;
+            } else {
+                errorMessage.style.display = 'none';
+                input.classList.remove('error');
+            }
+        });
+
+        // Validate email fields separately for specific requirements
+        const emailFields = [
+            document.getElementById('email'),
+            document.getElementById('docemail')
+        ];
+
+        emailFields.forEach(email => {
+            const errorMessage = email.nextElementSibling;
+            if (!email.value.includes('@')) {
+                errorMessage.textContent = 'Email must include an @ symbol.';
+                errorMessage.style.display = 'block';
+                email.classList.add('error');
+                valid = false;
+            } else {
+                errorMessage.style.display = 'none';
+                email.classList.remove('error');
+            }
+        });
+
+        if (valid) {
+            form.submit();
+        }
+    });
+});
+</script>
+
   </body>
 </html>
